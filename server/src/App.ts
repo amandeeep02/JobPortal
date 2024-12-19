@@ -4,6 +4,9 @@ import cors from "cors";
 import http from "http";
 import dotenv from "dotenv";
 import userRoutes from "./routes/user.routes";
+import jobRoutes from "./routes/job.routes";
+import chatRoutes from "./routes/chatbot.routes";
+import applicationRoutes from "./routes/application.routes";
 
 // Load environment variables
 dotenv.config();
@@ -55,3 +58,8 @@ process.on("unhandledRejection", (err: Error) => {
 
 // Add after your middleware setup
 app.use("/api", userRoutes);
+app.use("/api", jobRoutes);
+app.use("/api/chat", chatRoutes);
+app.use("/api/applications", applicationRoutes);
+
+

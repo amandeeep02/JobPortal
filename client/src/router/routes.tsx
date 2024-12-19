@@ -3,6 +3,7 @@ import { Landing } from '@/pages/Landing'
 import { Route, Routes } from 'react-router-dom'
 import { Jobs } from '@/pages/Jobs'
 import { UserDetails } from '@/pages/UserDetails'
+import Chatbot from '@/pages/Chatbot'
 import { Admin } from '@/pages/Admin'
 
 const AppRoutes = () => {
@@ -10,7 +11,9 @@ const AppRoutes = () => {
     <AuthProvider>
       <Routes>
         <Route path="*" element={<Landing />} />
+
         <Route path="user-details" element={<UserDetails />} />
+        <Route path="/chat" element={<Chatbot />} />
         <Route path="/jobs" element={<Jobs />} />
         <Route path="/admin" element={<Admin />} />
       </Routes>
