@@ -1,13 +1,13 @@
-import express, { Request, Response, NextFunction } from "express";
+import express from "express";
 import mongoose from "mongoose";
 import http from "http";
 import dotenv from "dotenv";
+import cors from "cors"; // Add this line
 import userRoutes from "./routes/user.routes";
 import jobRoutes from "./routes/job.routes";
 import chatRoutes from "./routes/chatbot.routes";
 import applicationRoutes from "./routes/application.routes";
 
-// Load environment variables
 dotenv.config();
 
 const app = express();
@@ -15,17 +15,28 @@ const server = http.createServer(app);
 const port = process.env.PORT;
 const mongoUri = process.env.MONGODB_URI || "";
 
+// CORS configuration
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://job-portal-three-bice.vercel.app",
+];
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true, // Allow cookies and credentials
+  })
+);
+
 // Add body parser middleware
 app.use(express.json());
 
-// Handle uncaught exceptions
-process.on("uncaughtException", (err: Error) => {
-  console.error("UNCAUGHT EXCEPTION! 💥 Shutting down...");
-  console.error(err.name, err.message);
-  process.exit(1);
-});
-
-// Connect to MongoDB
+// MongoDB Connection
 mongoose
   .connect(mongoUri)
   .then(() => console.log("MongoDB connected successfully"))
@@ -40,13 +51,4 @@ app.use("/api/applications", applicationRoutes);
 // Start the server
 server.listen(port, () => {
   console.log(`API is running on port ${port} - ${process.env.NODE_ENV}`);
-});
-
-// Handle unhandled promise rejections
-process.on("unhandledRejection", (err: Error) => {
-  console.error("Unhandled Rejection! 💥 Shutting down...");
-  console.error(err.name, err.message);
-  server.close(() => {
-    process.exit(1);
-  });
 });

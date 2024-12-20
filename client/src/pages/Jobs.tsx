@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { useState, useEffect } from 'react'
 import Chatbot from '@/pages/Chatbot'
-import { MessageCircle } from 'lucide-react' // For chat icon
+import { MessageCircle } from 'lucide-react' 
 
 export function Jobs() {
   const [jobs, setJobs] = useState([])
