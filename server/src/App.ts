@@ -16,13 +16,33 @@ const server = http.createServer(app);
 const port = process.env.PORT;
 const mongoUri = process.env.MONGODB_URI || "";
 
+// Define CORS options
+const corsOptions = {
+  origin: [
+    'https://job-portal-three-bice.vercel.app',
+    'http://localhost:5173'
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+  credentials: true,
+  maxAge: 86400 
+};
+
 // Add CORS middleware before routes
-app.use(
-  cors({
-    origin: "https://job-portal-three-bice.vercel.app",
-    credentials: true,
-  })
-);
+app.use(cors(corsOptions));
+
+// Add OPTIONS handling for preflight requests
+app.options('*', cors(corsOptions));
+
+// Add security headers middleware
+app.use((req: Request, res: Response, next: NextFunction) => {
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+  );
+  next();
+});
 
 // Add body parser middleware
 app.use(express.json());
@@ -40,6 +60,18 @@ mongoose
   .then(() => console.log("MongoDB connected successfully"))
   .catch((err: Error) => console.error("Couldn't connect to MongoDB", err));
 
+// Add error handling middleware
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
+
+// Routes
+app.use("/api", userRoutes);
+app.use("/api", jobRoutes);
+app.use("/api/chat", chatRoutes);
+app.use("/api/applications", applicationRoutes);
+
 // Start the server
 server.listen(port, () => {
   console.log(`API is running on port ${port} - ${process.env.NODE_ENV}`);
@@ -53,9 +85,3 @@ process.on("unhandledRejection", (err: Error) => {
     process.exit(1);
   });
 });
-
-// Add after your middleware setup
-app.use("/api", userRoutes);
-app.use("/api", jobRoutes);
-app.use("/api/chat", chatRoutes);
-app.use("/api/applications", applicationRoutes);
