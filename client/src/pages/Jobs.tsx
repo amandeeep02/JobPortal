@@ -32,7 +32,9 @@ export function Jobs() {
 
   const fetchJobs = async () => {
     try {
-      const response = await fetch('http://localhost:5001/api/jobs')
+      const response = await fetch(
+        'https://job-portal-helper.vercel.app/api/jobs'
+      )
       const data = await response.json()
       if (data.success) setJobs(data.jobs)
     } catch (error) {
@@ -44,7 +46,7 @@ export function Jobs() {
     if (!selectedJobId) return
     try {
       const response = await fetch(
-        'http://localhost:5001/api/applications/apply',
+        'https://job-portal-helper.vercel.app/api/applications/apply',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -166,7 +168,7 @@ export function Jobs() {
       {/* Chat Button & Dialog */}
       <Dialog open={isChatOpen} onOpenChange={setIsChatOpen}>
         <DialogTrigger asChild>
-          <Button 
+          <Button
             className="fixed bottom-4 right-4 rounded-full w-12 h-12 shadow-lg"
             size="icon"
           >

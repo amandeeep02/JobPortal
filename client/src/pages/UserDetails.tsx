@@ -43,12 +43,15 @@ export function UserDetails() {
     e.preventDefault()
 
     try {
-      const response = await axios.post(`http://localhost:5001/api/user`, {
-        firstName: formData.firstname,
-        lastName: formData.lastname,
-        email: formData.email,
-        role: formData.role,
-      })
+      const response = await axios.post(
+        `https://job-portal-helper.vercel.app/api/user`,
+        {
+          firstName: formData.firstname,
+          lastName: formData.lastname,
+          email: formData.email,
+          role: formData.role,
+        }
+      )
 
       if (response.data.role === 'admin') {
         navigate('/admin')

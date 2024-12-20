@@ -9,10 +9,12 @@ const Chatbot: React.FC = () => {
     if (!userInput.trim()) return
 
     try {
-      const response = await axios.post('http://localhost:5001/api/chat', {
-        prompt:
-          userInput +
-          `You are a helpful job portal assistant. Your primary responsibilities are:
+      const response = await axios.post(
+        'https://job-portal-helper.vercel.app/api/chat',
+        {
+          prompt:
+            userInput +
+            `You are a helpful job portal assistant. Your primary responsibilities are:
 
 1. Job Search Assistance:
 - Help users find jobs based on their skills, experience, and preferences
@@ -49,7 +51,8 @@ Remember to:
 - Maintain a helpful and supportive tone
 
 If you don't have specific information about a job listing, acknowledge this and provide general guidance while suggesting the user check the portal directly.`,
-      })
+        }
+      )
       setChatResponse(response.data.response)
     } catch (error) {
       console.error('Error fetching AI response:', error)
@@ -76,8 +79,8 @@ If you don't have specific information about a job listing, acknowledge this and
           value={userInput}
           onChange={(e) => setUserInput(e.target.value)}
         />
-        <button 
-          className="w-full bg-blue-500 text-white py-2 rounded" 
+        <button
+          className="w-full bg-blue-500 text-white py-2 rounded"
           onClick={handleSend}
         >
           Send

@@ -47,7 +47,7 @@ export function Admin() {
 
   useEffect(() => {
     // Fetch jobs from the backend
-    fetch('http://localhost:5001/api/jobs')
+    fetch('https://job-portal-helper.vercel.app/api/jobs')
       .then((response) => response.json())
       .then((data) => {
         if (data.success) setJobs(data.jobs)
@@ -58,7 +58,7 @@ export function Admin() {
   const fetchApplications = async (jobId: string) => {
     try {
       const response = await fetch(
-        `http://localhost:5001/api/applications/${jobId}`
+        `https://job-portal-helper.vercel.app/api/applications/${jobId}`
       )
       const data = await response.json()
       if (data.success) setApplications(data.applications)

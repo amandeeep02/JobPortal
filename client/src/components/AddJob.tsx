@@ -43,29 +43,31 @@ export function AddJobs() {
     },
   })
 
-const onSubmit = async (values: z.infer<typeof formSchema>) => {
-  try {
-    const response = await fetch('http://localhost:5001/api/jobs', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(values),
-    })
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      const response = await fetch(
+        'https://job-portal-helper.vercel.app/api/jobs',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(values),
+        }
+      )
 
-    if (!response.ok) {
-      throw new Error('Failed to create job')
+      if (!response.ok) {
+        throw new Error('Failed to create job')
+      }
+
+      const data = await response.json()
+      console.log('Job created:', data)
+      setOpen(false)
+      form.reset()
+    } catch (error) {
+      console.error('Error:', error)
     }
-
-    const data = await response.json()
-    console.log('Job created:', data)
-    setOpen(false)
-    form.reset()
-  } catch (error) {
-    console.error('Error:', error)
   }
-}
-
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
