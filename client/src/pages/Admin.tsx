@@ -37,9 +37,7 @@ interface Job {
 
 export function Admin() {
   const [jobs, setJobs] = useState<Job[]>([])
-  const [selectedJobId, setSelectedJobId] = useState<string | null>(null)
   const [applications, setApplications] = useState<any[]>([])
-  const [editJob, setEditJob] = useState<Job | null>(null) // Job to edit
   const [editData, setEditData] = useState({
     title: '',
     description: '',
@@ -69,46 +67,6 @@ export function Admin() {
     }
   }
 
-  const handleDelete = async (id: string) => {
-    if (window.confirm('Are you sure you want to delete this job?')) {
-      try {
-        const response = await fetch(`http://localhost:5001/api/jobs/${id}`, {
-          method: 'DELETE',
-        })
-        const data = await response.json()
-        if (data.success) {
-          setJobs(jobs.filter((job: any) => job._id !== id))
-        } else {
-          alert(data.message || 'Error deleting job')
-        }
-      } catch (error) {
-        console.error('Error deleting job:', error)
-      }
-    }
-  }
-
-  const handleUpdate = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:5001/api/jobs/${editJob?._id}`,
-        {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(editData),
-        }
-      )
-      const data = await response.json()
-      if (data.success) {
-        setJobs(jobs.map((job) => (job._id === editJob?._id ? data.job : job)))
-        setEditJob(null) // Close the dialog
-      } else {
-        alert(data.message || 'Error updating job')
-      }
-    } catch (error) {
-      console.error('Error updating job:', error)
-    }
-  }
-
   return (
     <>
       <Navbar />
@@ -132,7 +90,7 @@ export function Admin() {
                 <div className="flex justify-between p-6 pt-0">
                   <Dialog>
                     <DialogTrigger asChild>
-                      {/* <Button onClick={() => setEditJob(job)}>Update</Button> */}
+                      {/* Placeholder for future implementation */}
                     </DialogTrigger>
                     <DialogContent>
                       <DialogHeader>
@@ -141,7 +99,7 @@ export function Admin() {
                       <form
                         onSubmit={(e) => {
                           e.preventDefault()
-                          handleUpdate()
+                          // handleUpdate()
                         }}
                       >
                         <div className="space-y-4">
@@ -189,7 +147,7 @@ export function Admin() {
                           <div className="flex justify-end gap-4">
                             <Button
                               type="button"
-                              onClick={() => setEditJob(null)}
+                              onClick={() => console.log('Cancel')}
                               variant="secondary"
                             >
                               Cancel
@@ -200,20 +158,9 @@ export function Admin() {
                       </form>
                     </DialogContent>
                   </Dialog>
-                  {/* <Button
-                  variant="destructive"
-                  onClick={() => handleDelete(job._id)}
-                >
-                  Delete
-                </Button> */}
                   <Dialog>
                     <DialogTrigger asChild>
-                      <Button
-                        onClick={() => {
-                          setSelectedJobId(job._id)
-                          fetchApplications(job._id)
-                        }}
-                      >
+                      <Button onClick={() => fetchApplications(job._id)}>
                         View Applications
                       </Button>
                     </DialogTrigger>
