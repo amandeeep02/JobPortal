@@ -26,6 +26,15 @@ app.use(
   })
 );
 
+// Add headers to all responses
+app.use((req: Request, res: Response, next: NextFunction) => {
+  res.header("Access-Control-Allow-Origin", "https://job-portal-three-bice.vercel.app");
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  next();
+});
+
 // Add body parser middleware
 app.use(express.json());
 
@@ -37,15 +46,15 @@ process.on("uncaughtException", (err: Error) => {
 });
 
 // Connect to MongoDB
-mongoose
-  .connect(mongoUri)
-  .then(() => console.log("MongoDB connected successfully"))
-  .catch((err: Error) => console.error("Couldn't connect to MongoDB", err));
-
-// Start the server
-server.listen(port, () => {
-  console.log(`API is running on port ${port} - ${process.env.NODE_ENV}`);
-});
+mongoose.connect(mongoUri)
+  .then(() => {
+    server.listen(port, () => {
+      console.log(`Server is running on port ${port}`);
+    });
+  })
+  .catch((error) => {
+    console.error("Database connection error:", error);
+  });
 
 // Handle unhandled promise rejections
 process.on("unhandledRejection", (err: Error) => {
@@ -56,8 +65,8 @@ process.on("unhandledRejection", (err: Error) => {
   });
 });
 
-// Add after your middleware setup
-app.use("/api", userRoutes);
-app.use("/api", jobRoutes);
+// Your routes here
+app.use("/api/users", userRoutes);
+app.use("/api/jobs", jobRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/applications", applicationRoutes);
