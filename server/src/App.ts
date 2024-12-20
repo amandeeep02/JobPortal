@@ -19,7 +19,7 @@ const mongoUri = process.env.MONGODB_URI || "";
 // Add CORS middleware before routes
 app.use(
   cors({
-    origin: "https://job-portal-three-bice.vercel.app/", // Your frontend URL
+    origin: "https://job-portal-three-bice.vercel.app", // Your frontend URL
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
@@ -61,5 +61,3 @@ app.use("/api", userRoutes);
 app.use("/api", jobRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/applications", applicationRoutes);
-
-

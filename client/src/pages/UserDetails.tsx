@@ -67,7 +67,7 @@ export function UserDetails() {
     <div className="min-h-screen bg-neutral-950 flex items-center justify-center p-4">
       <div className="max-w-md w-full mx-auto rounded-lg md:rounded-2xl p-4 md:p-8 shadow-input bg-neutral-950 dark:bg-black align-middle justify-center border md:border-2 border-neutral-200 dark:border-neutral-800">
         <h2 className="font-bold text-xl text-neutral-200 dark:text-neutral-200">
-          Welcome to Pooling & Pairing
+          Welcome to Helper4U
         </h2>
         <p className="text-neutral-300 text-sm max-w-sm mt-2 dark:text-neutral-300">
           Please fill in the form below to create an account
