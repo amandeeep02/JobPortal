@@ -17,18 +17,14 @@ const port = process.env.PORT;
 const mongoUri = process.env.MONGODB_URI || "";
 
 // Add CORS middleware before routes
-app.use(
-  cors({
-    origin: "https://job-portal-three-bice.vercel.app", // Your frontend URL
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+app.use(cors());
 
 // Add headers to all responses
 app.use((req: Request, res: Response, next: NextFunction) => {
-  res.header("Access-Control-Allow-Origin", "https://job-portal-three-bice.vercel.app");
+  res.header(
+    "Access-Control-Allow-Origin",
+    "https://job-portal-three-bice.vercel.app"
+  );
   res.header("Access-Control-Allow-Credentials", "true");
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
@@ -46,7 +42,8 @@ process.on("uncaughtException", (err: Error) => {
 });
 
 // Connect to MongoDB
-mongoose.connect(mongoUri)
+mongoose
+  .connect(mongoUri)
   .then(() => {
     server.listen(port, () => {
       console.log(`Server is running on port ${port}`);
