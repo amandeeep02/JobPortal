@@ -2,7 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import http from "http";
 import dotenv from "dotenv";
-import cors from "cors"; // Add this line
+import cors from "cors";
 import userRoutes from "./routes/user.routes";
 import jobRoutes from "./routes/job.routes";
 import chatRoutes from "./routes/chatbot.routes";
@@ -15,11 +15,7 @@ const server = http.createServer(app);
 const port = process.env.PORT;
 const mongoUri = process.env.MONGODB_URI || "";
 
-// CORS configuration
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://job-portal-three-bice.vercel.app",
-];
+const allowedOrigins = ["http://localhost:5173", "http://localhost:5173"];
 app.use(
   cors({
     origin: (origin, callback) => {

@@ -18,7 +18,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { useState, useEffect } from 'react'
 import Chatbot from '@/pages/Chatbot'
-import { MessageCircle } from 'lucide-react' 
+import { MessageCircle } from 'lucide-react'
 
 export function Jobs() {
   const [jobs, setJobs] = useState([])
@@ -32,9 +32,7 @@ export function Jobs() {
 
   const fetchJobs = async () => {
     try {
-      const response = await fetch(
-        'https://job-portal-helper.vercel.app/api/jobs'
-      )
+      const response = await fetch('http://localhost:5000/api/jobs')
       const data = await response.json()
       if (data.success) setJobs(data.jobs)
     } catch (error) {
@@ -46,7 +44,7 @@ export function Jobs() {
     if (!selectedJobId) return
     try {
       const response = await fetch(
-        'https://job-portal-helper.vercel.app/api/applications/apply',
+        'http://localhost:5000/api/applications/apply',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

@@ -17,7 +17,7 @@ Create a `.env` file in the `server` directory with the following content:
 ```sh
 MONGODB_URI=<your_mongodb_uri> PORT=5000
 JWT_SECRET=<your_jwt_secret>
-REACT_APP_BASE_URL=https://job-portal-three-bice.vercel.app
+REACT_APP_BASE_URL=http://localhost:5173
 NODE_ENV=development
 
 GOOGLE_API_KEY=<your_google_api_key>
@@ -31,15 +31,15 @@ Make sure to replace placeholders like `<your_mongodb_uri>`, `<your_jwt_secret>`
 Create a `.env.development` file in the `client` directory with the following content:
 
 ```sh
-VITE_SERVER_URL=https://job-portal-helper.vercel.app
-VITE_CLIENT_URL=https://job-portal-three-bice.vercel.app
+VITE_SERVER_URL=http://localhost:5000
+VITE_CLIENT_URL=http://localhost:5173
 ```
 
 Create a `.env.production` file in the `client` directory with the following content:
 
 ```sh
-VITE_SERVER_URL=https://job-portal-helper.vercel.app
-VITE_CLIENT_URL=https://job-portal-three-bice.vercel.app
+VITE_SERVER_URL=http://localhost:5000
+VITE_CLIENT_URL=http://localhost:5173
 ```
 
 ## Running the Backend Server
@@ -62,7 +62,7 @@ npm install
 npm start
 ```
 
-The backend server will be running on https://job-portal-helper.vercel.app.
+The backend server will be running on http://localhost:5000.
 
 ## Running the React App
 
